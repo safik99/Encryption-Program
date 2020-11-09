@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Network Security A2</title>
+
+        <style>
+            body {
+                margin: 10px;
+                background-color: rgb(235, 248, 186);
+                font-family: Arial;
+                font-size: 30px;
+                color: rgb(14, 80, 8);
+                text-align: center;
+            }
+
+            input[type=text], input[type="password"] {
+                font-family: Arial;
+                font-size: 24px;
+                background-color: rgb(4, 134, 36);
+                color: rgb(255, 255, 255);
+                padding: 10px;
+                margin-top: 10px;
+            }
+
+            ::placeholder {
+                color: rgb(218, 240, 214);
+                }
+            input[type=button] {
+                font-family: Arial;
+                font-size: 24px;
+                background-color: rgb(255, 221, 221);
+                color: black;
+                padding: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <h2 style="text-align: center;">Encrypt Your Message</h2>
+        <p style="font-size: 0.75em; color: rgb(139, 0, 0);">Message and Key can be any length</p>
+        
+        <form method="get" id='theForm'>
+            Key
+            <input type="text" id="key"  placeholder="Enter key">
+            <input type="checkbox" onclick="hideKey()"> Hide Key
+            <br><br>
+
+            Message to Encrypt &emsp;&emsp;&emsp;&emsp;&emsp;
+            Encrypted Message <br>
+            <input type="text" id="toEncrypt" placeholder="Enter message to encrypt" >
+            <input type="button" id="submitEncrypt" value="Encrypt">
+            <input type="text" id="encryptedMessage" readonly placeholder="Encrypted text">
+            
+            <br><br> <br>
+
+            Message to Decrypt &emsp;&emsp;&emsp;&emsp;&emsp;
+            Decrypted Message <br>
+            <input type="text" id="toDecrypt" placeholder="Enter message to decrypt">
+            <input type="button" id="submitDecrypt" value="Decrypt">
+            <input type="text" id="decryptedMessage" readonly placeholder="Decrypted text">
+        </form>
+        <br>
+
+        <script>
+
+            var toEncrypt = document.getElementById("toEncrypt");
+            var encryptedMessage = document.getElementById("encryptedMessage");
+            var toDecrypt = document.getElementById("toDecrypt");
+            var decryptedMessage = document.getElementById("decryptedMessage");
+            var key = document.getElementById("key");
+            var keyRand = 0;
+
+            var cipherText = "";
+            var decipheredText = "";
+            var amount = 0;
+
+            const encryptButton = document.getElementById("submitEncrypt");
+            const decryptButton = document.getElementById("submitDecrypt");    
+
+            function cipher(text, key, amount) {
+
+                var shiftedText = "";
+                var cipherText = "";
+
+                for (var i = 0; i < text.length; i ++) {
+
+                    var c = text[i];
+                    var code = text.charCodeAt(i);
+
+                    c = String.fromCharCode(code + amount);
+
+                    shiftedText += c;
+                    cipherText += String.fromCharCode(shiftedText.charCodeAt(i) ^ key.charCodeAt(keyRand));
+                }
+                return cipherText;
+            }
+
+            function decipher (cipherText, key, amount) {
+
+                var unshiftedText = "";
+                var decipheredText = "";
+
+                for (var i = 0; i < cipherText.length; i ++) {
+
+                    decipheredText += String.fromCharCode(cipherText.charCodeAt(i) ^ key.charCodeAt(keyRand));
+
+                    var c = decipheredText[i];
+                    var code = decipheredText.charCodeAt(i);
+
+                    c = String.fromCharCode(code - amount);
+
+                    unshiftedText += c;
+                    
+                }
+                return unshiftedText;
+            }
+
+            function hideKey() {
+                if (key.type === "text") {
+                    key.type = "password";
+                } else {
+                    key.type = "text";
+                }
+            }
+
+            encryptButton.addEventListener("click", () => {
+
+                amount = Math.floor(Math.random() * 26) + 1;
+                keyRand = Math.floor(Math.random() * key.length);
+
+                cipherText = cipher(toEncrypt.value, key.value, amount);
+                encryptedMessage.value = cipherText;
+
+            }); 
+            
+            decryptButton.addEventListener("click", () => {
+
+                decipheredText = decipher(toDecrypt.value, key.value, amount);
+                decryptedMessage.value = decipheredText;
+
+            });
+
+    </script>
+    </body>
+</html>
