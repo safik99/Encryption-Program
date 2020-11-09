@@ -1,10 +1,10 @@
 # Encryption/Decryption Program
 
 This program can encrypt and decrypt messages using a key. <br>
-The key and message have no character limit. <br>
+The key and message have no character limit. <br> <br>
 <img src="assets/main.png" height="300">
 
-If you want, you can hide the key. <br>
+If you want, you can hide the key. <br> <br>
 <img src="assets/key.png" height="300">
 <img src="assets/hiddenKey.png" height="300">
 
